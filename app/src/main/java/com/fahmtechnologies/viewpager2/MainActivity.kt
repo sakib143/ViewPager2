@@ -2,14 +2,17 @@ package com.fahmtechnologies.viewpager2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.fahmtechnologies.viewpager2.Fragment.OneFragment
 import com.fahmtechnologies.viewpager2.Fragment.ThreeFragment
 import com.fahmtechnologies.viewpager2.Fragment.TwoFragment
+import com.fahmtechnologies.viewpager2.ViewPagerIndicator.ZoomOutPageTransformer
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -30,16 +33,19 @@ class MainActivity  : AppCompatActivity()  {
         viewPager2.adapter = pagerAdapter
 
 
-//        val zoomOutPageTransformer = ZoomOutPageTransformer()
-//        viewPager2.setPageTransformer { page, position ->
-//            zoomOutPageTransformer.transformPage(page, position)
-//        }
+        val zoomOutPageTransformer = ZoomOutPageTransformer()
+        viewPager2.setPageTransformer { page, position ->
+            zoomOutPageTransformer.transformPage(page, position)
+        }
 
         springDotsIndicator.setViewPager2(viewPager2)
 
-
-//        val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.springDotsIndicator)
-//        springDotsIndicator.setViewPager2(viewPager2)
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+               Log.e("=> ","View pager selected position")
+            }
+        })
     }
 
     override fun onBackPressed() {
